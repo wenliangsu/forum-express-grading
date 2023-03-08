@@ -53,13 +53,20 @@ const userController = {
     });
   },
   getUser: (req, res, next) => {
+    const loginUser = req.user
     return Promise.all([
       User.findByPk(req.params.id, {
         //  note 關聯comment以計算使用者評論數
-        include: [Comment],
+        include: [
+          { model: Restaurant, as: 'FavoritedRestaurants' },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
+
+        ],
         nest: true
       }),
       // note 單獨使用group 會報錯，因SQL使用的mode => sql_mode=only_full_group_by有關，因此使用attribute來選取columnName，在套入group才不會報錯
+      // note group的目的是把相同的名稱(or id）給他集合再一起，便不會出現重複選項
       Comment.findAll({
         where: { userId: req.params.id },
         attributes: [
@@ -74,7 +81,7 @@ const userController = {
       .then(([user, comments]) => {
         if (!user) throw new Error("User didn't exist !")
 
-        return res.render('users/profile', { user: user.toJSON(), comments })
+        return res.render('users/profile', { userProfile: user.toJSON(), comments, loginUser })
       })
       .catch(err => next(err))
   },
