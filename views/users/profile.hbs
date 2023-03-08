@@ -1,33 +1,97 @@
-<div class="card mb-3" style="max-width: 800px;">
+<div class="card mb-3" style="max-width: auto;">
   <div class="row g-0">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <img class="img-responsive center-block"
-        src="{{#if user.image}}{{ user.image }}{{else}}https://fakeimg.pl/400x400/?text=Photo {{/if}}" alt="avatar"
-        style="width: 360px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+        src="{{#if userProfile.image}}{{ userProfile.image }}{{else}}https://cdn-icons-png.flaticon.com/512/149/149071.png?w=1800&t=st=1678281974~exp=1678282574~hmac=5b6662cdf0a3562a9f35902d666281a01fdababa1b1a497e153527badb2a628c {{/if}}"
+        alt="avatar" style="width: 360px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;"
+        onload="this.style.opacity=1;">
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">{{ user.name }}</h5>
-        <p class="card-text">{{ user.email }}</p>
-        <p class="card-text">{{user.Comments.length}}則已評論餐廳</p>
-        <a class="btn btn-primary" href="/users/{{ user.id }}/edit" role="button">Edit</a>
+        <h5 class="card-title">{{ userProfile.name }}</h5>
+        <p class="card-text">{{ userProfileProfile.email }}</p>
+        <p class="card-text">{{comments.length}}間已評論餐廳</p>
+        <p class="card-text">{{userProfile.FavoritedRestaurants.length}}個已收藏餐廳</p>
+        <p class="card-text">{{userProfile.Followings.length}}個followings(追蹤者)</p>
+        <p class="card-text">{{userProfile.Followers.length}}個followers (追隨者)</p>
+        {{#ifCond userProfile.id loginUser.id}}
+        <a class="btn btn-primary" href="/users/{{ userProfile.id }}/edit" role="button">Edit</a>
+        {{/ifCond}}
       </div>
     </div>
   </div>
 </div>
 
-<div class="row card mb-3 mt-3">
-  <h5 class="card-header">已評論餐廳數：{{comments.length}}</h5>
-  <div class="card-body">
-    {{#if comments}}
-    {{#each comments}}
-    <a href="/restaurants/{{this.Restaurant.id}}" title="{{this.Restaurant.name}}" style="text-decoration: none;">
-      <img src="{{this.Restaurant.image}}" class="m-3" style="height:100px; width:100px;">
-    </a>
-    {{/each}}
-    {{else}}
-    <h5 class="m-3 d-flex align-items-center">目前無任何評論過的餐廳</h5>
-    {{/if}}
+
+<div class="row">
+  {{!-- Followship --}}
+  <div class="col-4">
+    <div class="" name="followship">
+      <div class="border mb-4" name="followings">
+        <h5 class="card-header">{{userProfile.Followings.length}} followings (追蹤者)</h5>
+        <div class="card-body">
+          {{#if userProfile.Followings}}
+          {{#each userProfile.Followings}}
+          <a href="/users/{{this.id}}" title="{{this.name}}" style="text-decoration: none;">
+            <img src="{{this.image}}" class="m-1" style="height:50px; width:50px;">
+          </a>
+          {{/each}}
+          {{else}}
+          <h5 class="m-3 d-flex align-items-center">目前無任何追蹤者</h5>
+          {{/if}}
+        </div>
+      </div>
+      <div class="border mb-4" name="followers">
+        <h5 class="card-header">{{userProfile.Followers.length}} followers (追隨者)</h5>
+        <div class="card-body">
+          {{#if userProfile.Followers}}
+          {{#each userProfile.Followers}}
+          <a href="/users/{{this.id}}" title="{{this.name}}" style="text-decoration: none;">
+            <img
+              src="{{#if this.image}}{{this.image}}{{else}}https://cdn-icons-png.flaticon.com/512/149/149071.png?w=1800&t=st=1678281974~exp=1678282574~hmac=5b6662cdf0a3562a9f35902d666281a01fdababa1b1a497e153527badb2a628c{{/if}}"
+              class="m-1" style="height:50px; width:50px;">
+          </a>
+          {{/each}}
+          {{else}}
+          <h5 class="m-3 d-flex align-items-center">目前無任何追隨者</h5>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Restaurant's comment and favorite--}}
+  <div class="col-8">
+    <div class="ms-2" name="restaurant-comments">
+      <div class="border mb-4" name="restaurant-comments">
+        <h5 class="card-header">{{comments.length}} 間已評論餐廳</h5>
+        <div class="card-body">
+          {{#if comments}}
+          {{#each comments}}
+          <a href="/restaurants/{{this.Restaurant.id}}" title="{{this.Restaurant.name}}" style="text-decoration: none;">
+            <img src="{{this.Restaurant.image}}" class="m-1" style="height:50px; width:50px;">
+          </a>
+          {{/each}}
+          {{else}}
+          <h5 class="m-3 d-flex align-items-center">目前無任何評論過的餐廳</h5>
+          {{/if}}
+        </div>
+      </div>
+      <div class="border mb-4" name="favorited-restaurants">
+        <h5 class="card-header">{{userProfile.FavoritedRestaurants.length}} 間收藏的餐廳</h5>
+        <div class="card-body">
+          {{#if userProfile.FavoritedRestaurants}}
+          {{#each userProfile.FavoritedRestaurants}}
+          <a href="/restaurants/{{this.id}}" title="{{this.name}}" style="text-decoration: none;">
+            <img src="{{this.image}}" class="m-1" style="height:50px; width:50px;">
+          </a>
+          {{/each}}
+          {{else}}
+          <h5 class="m-3 d-flex align-items-center">目前無任何收藏的餐廳</h5>
+          {{/if}}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
