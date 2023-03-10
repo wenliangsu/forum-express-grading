@@ -1,22 +1,12 @@
 /* For back-end system */
 const { Restaurant, User, Category } = require('../../models');
+const adminServices = require('../../services/admin-services')
 const { imgurFileHandler } = require('../../helpers/file-helpers'); // 載入檔案處理
 
 const adminController = {
   // TODO  Read all restaurants
   getRestaurants: (req, res, next) => {
-    //  note raw 是讓資料呈現簡化為單純的JS物件，若是不加的話，則會是原生Sequelize的instance，除非需要對後續取得的資料操作，才不加。
-    // note nest 因取用兩個model，所以未加入的話則會變成restaurant[X]['Category.name'], 加入後可以變成restaurant[X].Category.name，較方便操作
-    Restaurant.findAll({
-      raw: true,
-      nest: true,
-      // note 帶入另一個model進行關聯查詢，在sequelize此為eager loading
-      include: [Category]
-    })
-      .then(restaurants => {
-        res.render('admin/restaurants', { restaurants });
-      })
-      .catch(err => next(err));
+    adminServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin/restaurants', data))
   },
   // TODO Create the new restaurant data
   createRestaurant: (req, res, next) => {
