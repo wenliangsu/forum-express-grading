@@ -1,4 +1,4 @@
-const { Category } = require('../models')
+const { Category } = require('../../models')
 
 const categoryController = {
   // notice  有兩個router用到，差別在有無id上，所以要做判別

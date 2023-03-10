@@ -1,8 +1,8 @@
 /* For front-end system */
 const bcrypt = require('bcryptjs');
-const { User, Restaurant, Comment, Favorite, Like, Followship } = require('../models');
-const { getUser } = require('../helpers/auth-helpers')
-const { imgurFileHandler } = require('../helpers/file-helpers');
+const { User, Restaurant, Comment, Favorite, Like, Followship } = require('../../models');
+const { getUser } = require('../../helpers/auth-helpers')
+const { imgurFileHandler } = require('../../helpers/file-helpers');
 const assert = require('assert')
 
 const userController = {

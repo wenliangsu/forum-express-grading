@@ -9,7 +9,7 @@ const passport = require('./config/passport');
 const handlebarsHelpers = require('./helpers/handlebars-helpers'); // note 為了要執行裡面的function，所以需要引入該檔案，而非裡面的物件
 const { getUser } = require('./helpers/auth-helpers');
 
-const routes = require('./routes');
+const { pages } = require('./routes')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -48,7 +48,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(routes);
+app.use(pages);
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}!`);
