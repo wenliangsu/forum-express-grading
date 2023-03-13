@@ -1,3 +1,8 @@
+// notice 載入env時最好一開始載入，這樣會減少很多因順序造成的錯誤
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const path = require('path') // node.js原生語法
 const express = require('express');
 const { engine } = require('express-handlebars'); // the syntax is already changed by newest version
@@ -10,10 +15,6 @@ const handlebarsHelpers = require('./helpers/handlebars-helpers'); // note 為�
 const { getUser } = require('./helpers/auth-helpers');
 
 const { pages, apis } = require('./routes')
-
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
 
 const app = express();
 const port = process.env.PORT || 3000;

@@ -1,7 +1,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const passportJWT = require('passport-jwt');
 const bcrypt = require('bcryptjs');
 const { User, Restaurant } = require('../models');
+
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 
 // set up local strategy
 passport.use(
@@ -36,6 +40,28 @@ passport.use(
     }
   )
 );
+
+// set up JWT strategy
+// note 設定部分請看官方文件
+// notice JWT不會經過序列與反序列化，要注意程式跑的方向
+const jwtOptions = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET
+}
+
+passport.use(new JWTStrategy(jwtOptions, (jwtPayload, cb) => {
+  User.findByPk(jwtPayload.id, {
+    include: [
+      { model: Restaurant, as: 'FavoritedRestaurants' },
+      { model: Restaurant, as: 'LikedRestaurants' },
+      { model: User, as: 'Followers' },
+      { model: User, as: 'Followings' }
+    ]
+  })
+  // note 這邊不寫user.toJSON()是因為這JWT過程解密已取得是屬於JSON格式
+    .then(user => cb(null, user))
+    .catch(err => cb(err));
+}))
 
 // set up the serialize and deserialize
 passport.serializeUser((user, cb) => {
