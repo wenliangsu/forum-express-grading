@@ -11,5 +11,19 @@ module.exports = {
     res.redirect('back');
     // note 把error物件再傳給下一個
     next(err);
+  },
+  // note 給api用的error-handler，要有狀態碼才會知道發生什麼事情
+  apiErrorHandler (err, req, res, next) {
+    if (err instanceof Error) {
+      res.status(err.status || 500).json({
+        status: 'error',
+        message: `${err.name}:${err.message}`
+      })
+    } else {
+      res.status(500).json({
+        status: 'error',
+        message: `${err}`
+      })
+    }
   }
 };

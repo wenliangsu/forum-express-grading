@@ -1,3 +1,5 @@
+/* for api of admin-controller */
+
 const { Restaurant, Category } = require('../models');
 
 const adminServices = {
@@ -14,6 +16,18 @@ const adminServices = {
       .then(restaurants => {
         return cb(null, { restaurants });
       })
+      .catch(err => cb(err));
+  },
+  // TODO Delete the restaurant data
+  deleteRestaurant: (req, cb) => {
+    return Restaurant.findByPk(req.params.id)
+      .then(restaurant => {
+        if (!restaurant) throw new Error("Restaurant didn't exist !!");
+
+        return restaurant.destroy();
+      })
+      // note 雖然刪除資料可以不給，但是預留資料給前端去設計使用體驗
+      .then(deleteRestaurant => cb(null, { restaurant: deleteRestaurant }))
       .catch(err => cb(err));
   }
 }

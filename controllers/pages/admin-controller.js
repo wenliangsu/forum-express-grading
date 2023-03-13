@@ -98,13 +98,13 @@ const adminController = {
   },
   // TODO Delete the restaurant data
   deleteRestaurant: (req, res, next) => {
-    return Restaurant.findByPk(req.params.id)
-      .then(restaurant => {
-        if (!restaurant) throw new Error("Restaurant didn't exist !!");
+    adminServices.deleteRestaurant(req, (err, data) => {
+      if (err) return next(err)
 
-        return restaurant.destroy();
-      })
-      .then(() => res.redirect('/admin/restaurants'))
+      // notice 此處刪除session 是為了資安考量
+      req.session.deletedData = data
+      return res.redirect('/admin/restaurants')
+    })
       .catch(err => next(err));
   },
   // TODO User permission
