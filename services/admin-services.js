@@ -45,9 +45,13 @@ const adminServices = {
   },
   // TODO Delete the restaurant data
   deleteRestaurant: (req, cb) => {
-    return Restaurant.findByPk(req.params.id)
+    Restaurant.findByPk(req.params.id)
       .then(restaurant => {
-        if (!restaurant) throw new Error("Restaurant didn't exist !!");
+        if (!restaurant) {
+          const err = new Error("Restaurant didn't exist !!")
+          err.status = 404
+          throw err;
+        }
 
         return restaurant.destroy();
       })
