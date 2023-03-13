@@ -17,29 +17,14 @@ const adminController = {
       .catch(err => next(err))
   },
   postRestaurant: (req, res, next) => {
-    // !! note 雖然前端有用required來驗證，但是容易被修改，所以要在後端做一次驗證，避免被直接修改或侵入
-    const { name, tel, address, openingHours, description, categoryId } = req.body;
-    if (!name) throw new Error('Restaurant name is required');
+    adminServices.postRestaurant(req, (err, data) => {
+      if (err) throw new Error()
 
-    const file = req.file;
-
-    imgurFileHandler(file) // 先經multer處理後再給下面繼續
-      .then(filePath => {
-        return Restaurant.create({
-          name,
-          tel,
-          address,
-          openingHours,
-          description,
-          image: filePath || null,
-          categoryId
-        });
-      })
-      .then(() => {
-        req.flash('success_messages', 'Restaurant was created successfully');
-        res.redirect('/admin/restaurants');
-      })
-      .catch(err => next(err));
+      // note req.flash用在page的部分，所以跟api有關的部分用不到flash，在service也用不到
+      req.flash('success_messages', 'Restaurant was created successfully');
+      req.session.createdData = data
+      return res.redirect('/admin/restaurants')
+    })
   },
   // TODO Edit and Update the restaurant data
   getRestaurant: (req, res, next) => {

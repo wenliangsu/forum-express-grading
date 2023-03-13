@@ -1,6 +1,7 @@
 /* for api of admin-controller */
 
 const { Restaurant, Category } = require('../models');
+const { imgurFileHandler } = require('../helpers/file-helpers'); // 載入檔案處理
 
 const adminServices = {
   // TODO  Read all restaurants
@@ -16,6 +17,30 @@ const adminServices = {
       .then(restaurants => {
         return cb(null, { restaurants });
       })
+      .catch(err => cb(err));
+  },
+  // TODO Create the new restaurant data
+  postRestaurant: (req, cb) => {
+    // !! note 雖然前端有用required來驗證，但是容易被修改，所以要在後端做一次驗證，避免被直接修改或侵入
+    const { name, tel, address, openingHours, description, categoryId } = req.body;
+    if (!name) throw new Error('Restaurant name is required');
+
+    const file = req.file;
+
+    imgurFileHandler(file) // 先經multer處理後再給下面繼續
+      .then(filePath => {
+        return Restaurant.create({
+          name,
+          tel,
+          address,
+          openingHours,
+          description,
+          image: filePath || null,
+          categoryId
+        });
+      })
+      .then(newRestaurant => cb(null, { restaurant: newRestaurant })
+      )
       .catch(err => cb(err));
   },
   // TODO Delete the restaurant data

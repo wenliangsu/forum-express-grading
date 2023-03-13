@@ -23,7 +23,9 @@ const SESSION_SECRET = 'secret';
 app.engine('hbs', engine({ extname: '.hbs', helpers: handlebarsHelpers }));
 app.set('view engine', 'hbs');
 
+// note 用到body-parser解析資料，json的格式收到request時可以解讀該json格式
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
 
 app.use(methodOverride('_method'));
 
