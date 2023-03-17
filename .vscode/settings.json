@@ -11,5 +11,7 @@
   "cSpell.words": [
     "imgur",
     "IMGUR"
-  ] // optional but recommended
+  ],
+  "prettier.semi": true,
+  "prettier.useTabs": true // optional but recommended
 }

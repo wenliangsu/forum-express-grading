@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 const bcrypt = require('bcryptjs')
 
 module.exports = {
@@ -32,4 +32,4 @@ module.exports = {
     //  note 清空資料表
     await queryInterface.bulkDelete('Users', null, {})
   }
-};
+}

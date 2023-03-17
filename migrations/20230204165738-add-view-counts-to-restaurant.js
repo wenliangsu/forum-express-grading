@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -6,7 +6,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       defaultValue: 0,
       allowNull: false
-    });
+    })
     /**
      * Add altering commands here.
      *
@@ -18,4 +18,4 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeColumn('Restaurants', 'view_counts')
   }
-};
+}

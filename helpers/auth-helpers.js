@@ -2,14 +2,14 @@
 // Thinking helper的檔案為獨立運作，適用於此包裝
 const getUser = req => {
   // note the same at req.user ? req.user : null
-  return req.user || null;
-};
+  return req.user || null
+}
 
 const ensureAuthenticated = req => {
-  return req.isAuthenticated();
-};
+  return req.isAuthenticated()
+}
 
 module.exports = {
   getUser,
   ensureAuthenticated
-};
+}

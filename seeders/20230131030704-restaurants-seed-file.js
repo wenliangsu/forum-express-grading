@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 // note 專門使用假資料的套件
 const { faker } = require('@faker-js/faker')
 
@@ -30,4 +30,4 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Restaurants', {})
   }
-};
+}

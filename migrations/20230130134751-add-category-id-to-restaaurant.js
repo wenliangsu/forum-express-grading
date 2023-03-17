@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   // Thinking 在Category and restaurants是一對多，所以要想在restaurant部分加個foreign key並去抓取Category這個id
@@ -18,4 +18,4 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeColumn('Restaurants', 'category_id')
   }
-};
+}

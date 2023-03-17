@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate (models) {
       // define association here
       User.hasMany(models.Comment, { foreignKey: 'userId' })
 
@@ -58,6 +58,6 @@ module.exports = (sequelize, DataTypes) => {
       // note underscored 可以讓JS這邊使用駝峰命名，但是到了資料庫自動變成snake-case
       underscored: true
     }
-  );
-  return User;
-};
+  )
+  return User
+}

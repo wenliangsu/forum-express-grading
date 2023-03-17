@@ -1,7 +1,7 @@
 /* for api of admin-controller */
 
-const { Restaurant, Category } = require('../models');
-const { imgurFileHandler } = require('../helpers/file-helpers'); // 載入檔案處理
+const { Restaurant, Category } = require('../models')
+const { imgurFileHandler } = require('../helpers/file-helpers') // 載入檔案處理
 
 const adminServices = {
   // TODO  Read all restaurants
@@ -15,17 +15,17 @@ const adminServices = {
       include: [Category]
     })
       .then(restaurants => {
-        return cb(null, { restaurants });
+        return cb(null, { restaurants })
       })
-      .catch(err => cb(err));
+      .catch(err => cb(err))
   },
   // TODO Create the new restaurant data
   postRestaurant: (req, cb) => {
     // !! note 雖然前端有用required來驗證，但是容易被修改，所以要在後端做一次驗證，避免被直接修改或侵入
-    const { name, tel, address, openingHours, description, categoryId } = req.body;
-    if (!name) throw new Error('Restaurant name is required');
+    const { name, tel, address, openingHours, description, categoryId } = req.body
+    if (!name) throw new Error('Restaurant name is required')
 
-    const file = req.file;
+    const file = req.file
 
     imgurFileHandler(file) // 先經multer處理後再給下面繼續
       .then(filePath => {
@@ -37,11 +37,11 @@ const adminServices = {
           description,
           image: filePath || null,
           categoryId
-        });
+        })
       })
       .then(newRestaurant => cb(null, { restaurant: newRestaurant })
       )
-      .catch(err => cb(err));
+      .catch(err => cb(err))
   },
   // TODO Delete the restaurant data
   deleteRestaurant: (req, cb) => {
@@ -50,14 +50,14 @@ const adminServices = {
         if (!restaurant) {
           const err = new Error("Restaurant didn't exist !!")
           err.status = 404
-          throw err;
+          throw err
         }
 
-        return restaurant.destroy();
+        return restaurant.destroy()
       })
       // note 雖然刪除資料可以不給，但是預留資料給前端去設計使用體驗
       .then(deleteRestaurant => cb(null, { restaurant: deleteRestaurant }))
-      .catch(err => cb(err));
+      .catch(err => cb(err))
   }
 }
 

@@ -1,5 +1,5 @@
 // ***  該份helper可以將寫的條件輸出給hbs用，若是hbs的內建功能不夠的話可以另外寫給hbs用 */
-const dayjs = require('dayjs');
+const dayjs = require('dayjs')
 const relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
@@ -15,6 +15,6 @@ module.exports = {
     // note 三元運算子，a===b 是true 則fn, false 則inverse
     return a === b ? options.fn(this) : options.inverse(this)
   }
-};
+}
 
 //  Thinking 使用this的話，若是在箭頭function下，會直接對應到global environment，因此要回歸到傳統的function來指向object

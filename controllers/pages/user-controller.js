@@ -1,25 +1,25 @@
 /* For front-end system */
-const bcrypt = require('bcryptjs');
-const { User, Restaurant, Comment, Favorite, Like, Followship } = require('../../models');
+const bcrypt = require('bcryptjs')
+const { User, Restaurant, Comment, Favorite, Like, Followship } = require('../../models')
 const { getUser } = require('../../helpers/auth-helpers')
-const { imgurFileHandler } = require('../../helpers/file-helpers');
+const { imgurFileHandler } = require('../../helpers/file-helpers')
 const assert = require('assert')
 
 const userController = {
   signUpPage: (req, res) => {
-    res.render('signup');
+    res.render('signup')
   },
   signUp: (req, res, next) => {
     if (req.body.password !== req.body.passwordCheck) {
       // note 直接丟出error的物件
-      throw new Error('Passwords do not match');
+      throw new Error('Passwords do not match')
     }
 
     User.findOne({ where: { email: req.body.email } })
       .then(user => {
-        if (user) throw new Error('Email already exists!');
+        if (user) throw new Error('Email already exists!')
 
-        return bcrypt.hash(req.body.password, 10);
+        return bcrypt.hash(req.body.password, 10)
       })
       .then(hash =>
         User.create({
@@ -29,28 +29,28 @@ const userController = {
         })
       )
       .then(() => {
-        req.flash('success_messages', 'Account is signed up successfully !');
-        res.redirect('/signin');
+        req.flash('success_messages', 'Account is signed up successfully !')
+        res.redirect('/signin')
       })
-      .catch(err => next(err));
+      .catch(err => next(err))
     // note next()帶入err參數變成Error物件，代表使用express所給予的error處理，也可以自己寫一個
   },
   signInPage: (req, res) => {
-    res.render('signin');
+    res.render('signin')
   },
   signIn: (req, res) => {
     // note 已用passport來驗證，所以無需再多寫驗證邏輯
-    req.flash('success_messages', 'Login successfully !!');
-    res.redirect('/restaurants');
+    req.flash('success_messages', 'Login successfully !!')
+    res.redirect('/restaurants')
   },
   logout: (req, res, next) => {
     req.logout(err => {
       if (err) {
-        return next(err);
+        return next(err)
       }
-      req.flash('success_messages', 'Logout successfully !!');
-      res.redirect('/signin');
-    });
+      req.flash('success_messages', 'Logout successfully !!')
+      res.redirect('/signin')
+    })
   },
   getUser: (req, res, next) => {
     const loginUser = req.user
@@ -114,19 +114,19 @@ const userController = {
       imgurFileHandler(file)
     ])
       .then(([user, filePath]) => {
-        if (!user) throw new Error("User didn't exist");
+        if (!user) throw new Error("User didn't exist")
 
         // note return避免形成nest結構，較易閱讀，且update()也是個Promise
         return user.update({
           name,
           image: filePath || user.image
-        });
+        })
       })
       .then(() => {
         req.flash('success_messages', '使用者資料編輯成功')
-        res.redirect(`/users/${userId}`);
+        res.redirect(`/users/${userId}`)
       })
-      .catch(err => next(err));
+      .catch(err => next(err))
   },
   addFavorite: (req, res, next) => {
     const { restaurantId } = req.params
@@ -259,6 +259,6 @@ const userController = {
       .then(() => res.redirect('back'))
       .catch(err => next(err))
   }
-};
+}
 
-module.exports = userController;
+module.exports = userController

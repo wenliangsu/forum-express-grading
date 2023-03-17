@@ -12,3 +12,4 @@ rules:
     - as-needed
   semi: 0
   space-before-function-paren: 0
+  eol-last: 0

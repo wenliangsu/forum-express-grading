@@ -1,5 +1,5 @@
 // !!建立後還是要檢查一下是否有用到駝峰式寫法，需要修改
-'use strict';
+'use strict'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Restaurants', {
@@ -32,9 +32,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Restaurants');
+    await queryInterface.dropTable('Restaurants')
   }
-};
+}

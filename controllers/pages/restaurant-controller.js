@@ -24,6 +24,7 @@ const restaurantController = {
       ]
     })
       .then(restaurant => {
+        console.log(restaurant.toJSON())
         // notice 建議console出來以了解output格式的變化
         if (!restaurant) throw new Error("Restaurant didn't exist!")
 
@@ -82,12 +83,19 @@ const restaurantController = {
       Comment.findAll({
         limit: 10,
         order: [['createdAt', 'DESC']],
-        include: [User, Restaurant],
+        include: [
+          {
+            model: User,
+            // note 移除敏感資料
+            attributes: { exclude: ['password'] }
+          },
+          Restaurant],
         raw: true,
         nest: true
       })
     ])
       .then(([restaurants, comments]) => {
+        console.log(comments)
         res.render('feeds', { restaurants, comments })
       })
       .catch(err => next(err))
@@ -109,6 +117,6 @@ const restaurantController = {
       })
       .catch(err => next(err))
   }
-};
+}
 
-module.exports = restaurantController;
+module.exports = restaurantController
