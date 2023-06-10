@@ -6,12 +6,15 @@
   "editor.formatOnSaveMode": "file", // required to format on save
   "files.autoSave": "onFocusChange",
   "[javascript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "cSpell.words": [
     "imgur",
     "IMGUR"
   ],
   "prettier.semi": true,
-  "prettier.useTabs": true // optional but recommended
+  "prettier.useTabs": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  } // optional but recommended
 }
