@@ -1,52 +1,78 @@
-# README
+# The forum of restaurants
 
-1. Fork
-2. git clone
+![ScteenShot](public/image/Screenshot-1.png)
+![ScteenShot](public/image/Screenshot-2.png)
+![ScteenShot](public/image/Screenshot-3.png)
+![ScteenShot](public/image/Screenshot-4.png)
 
-## 初始化
-### Initialize
-```
-git remote add upstream https://github.com/ALPHACamp/forum-express-grading.git  # 建立上游連線
-npm install
-```
+## Introduction
 
-### 設定資料庫
-需要與 config/config.json 一致
+This application shows the list of restaurants and  reviews of each one. You can see the information and the food style of restaurant. And add it in your favorite list.
 
-```
-create database forum;
-```
+## Feature
+#### *_Common users_*
 
-### 執行測試
-```
-npm run test
-```
+- Read all restaurants about their category of food style, address, phone and reviews.
+- Show the description of a restaurant.
+- Can write review in the specific restaurant.
+- Can add the specific restaurant in your favorite list or like it.
+- The dashboard can see the counts of views, review and favorite list
+- All review are sorted by the newest on the top.
 
-## 下載作業規格
-以 R01 為例
+ 
+#### *Root user*
+- Root user can create the new restaurant
+- Can add the new restaurant, edit or delete
+- Can delete the specific review but can't edit it.
+- Can set user to be admin.
+- Can edit the information of specific restaurant, like opening hour, address, phone etc..
+- Can create, edit or delete the category.
 
-```
-git checkout -b R01           # 開新分支
-git merge origin/R01-test     # 下載作業規格
-npm run test                  # 直到綠燈全亮
+## Package environment
 
-git add .
-git commit -m "...."
-```
+- Express ^4.18.2
+- Express-handleBars ^6.0.6
+- Node.js ^18.14.0 (or lower)
+- MySQL ^8.0.31-arm64
+- Sequelize ^6.6.5
+- passport ^0.6.0
+- jsonwebtoken ^9.0.0
+- imgur ^1.0.2
+- @facker-js/faker ^7.6.0
+- method-override ^3.0.0
+- multer ^1.4.5
 
-## 繳交作業
 
-```
-git push origin R01           # 上傳本地進度
-```
+## How to use
 
-接著改成到 GitHub 來發 PR。
+1. Confirm you have already install the npm and node.js
+2. Clone this repository
 
-## 共用帳號
-請一律設定下面 2 組帳號以利驗收：
-* 第一組帳號有 admin 權限：
-  * email: root@example.com
-  * password: 12345678
-* 第二組帳號沒有 admin 權限：
-  * email: user1@example.com
-  * password: 12345678
+   ```
+   https://github.com/wenliangsu/forum-express-grading.git
+   ```
+
+3. Create the database "forum" in MySQL
+4. Then type the command as following:
+   ```
+   sequelize db:migrate
+   sequelize db:seed:all
+   ```
+5. You will see the message, and copy it into your browser.
+   ```
+   Express is listening on localhost:3000
+   ```
+6. Here are two accounts for testing:
+   ```
+   Account(1)
+   email:root@example.com
+   password: 12345678
+
+   Account(2)
+   email:user1@example.com
+   password: 12345678
+   ```
+   
+### Contributor
+
+_Wen Su_
